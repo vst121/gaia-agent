@@ -1,7 +1,7 @@
 smolagents
 huggingface_hub
 python-dotenv
-duckduckgo-search
+ddgs
 pypdf
 pandas
 openpyxl
