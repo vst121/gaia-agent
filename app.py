@@ -12,38 +12,35 @@ from tools.files import (
     read_csv
 )
 
+from tools.file_manager import list_files
+from tools.excel import read_excel
+
+from config import MODEL_ID
+from config import HF_TOKEN
 
 load_dotenv()
 
-
 model = InferenceClientModel(
-    model_id="Qwen/Qwen2.5-72B-Instruct",
-    token=os.environ["HF_TOKEN"]
+    model_id=MODEL_ID,
+    token=HF_TOKEN
 )
 
 agent = CodeAgent(
     model=model,
-
     tools=[
         search_web,
         calculator,
         read_text_file,
         read_pdf,
         read_csv,
+        read_excel,
+        list_files,
     ],
-
-    max_steps=8
+    max_steps=12,
+    additional_authorized_imports=[
+        "os",
+        "pathlib",
+        "pandas",
+        "numpy",
+    ],
 )
-
-
-question = """
-Who is the current CEO of OpenAI?
-How old are they?
-Calculate their age in months.
-"""
-
-
-answer = agent.run(question)
-
-
-print(answer)
