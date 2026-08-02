@@ -1,4 +1,4 @@
-from smolagents import CodeAgent, InferenceClientModel
+from smolagents import CodeAgent, InferenceClientModel, LiteLLMModel
 
 from config import HF_TOKEN, MODEL_ID
 
@@ -13,10 +13,17 @@ from tools.files import (
 from tools.file_manager import list_files
 
 
-model = InferenceClientModel(
-    model_id=MODEL_ID,
-    token=HF_TOKEN,
-    max_tokens=256,
+# model = InferenceClientModel(
+#     model_id=MODEL_ID,
+#     token=HF_TOKEN,
+#     max_tokens=256,
+# )
+
+model = LiteLLMModel(
+    model_id="ollama/gemma4:e2b",
+    api_base="http://localhost:11434",
+    api_key="ollama",                  # any non-empty value is commonly used
+    num_ctx=8192,
 )
 
 agent = CodeAgent(
