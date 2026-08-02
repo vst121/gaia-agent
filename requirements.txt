@@ -1,4 +1,6 @@
 smolagents
+gradio[oauth]
+requests
 huggingface_hub
 python-dotenv
 ddgs
