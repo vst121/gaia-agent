@@ -1,0 +1,7 @@
+smolagents
+huggingface_hub
+python-dotenv
+duckduckgo-search
+pypdf
+pandas
+openpyxl

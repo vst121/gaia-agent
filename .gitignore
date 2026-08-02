@@ -1,0 +1,117 @@
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# API keys, tokens, credentials
+*.key
+*.pem
+*.secret
+secrets/
+credentials/
+config/secrets/
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type checking / linting
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# =========================
+# AI / ML
+# =========================
+# Model weights (usually too large)
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Hugging Face cache
+.cache/
+huggingface/
+.huggingface/
+
+# ML experiment outputs
+runs/
+wandb/
+mlruns/
+checkpoints/
+outputs/
+
+# =========================
+# Logs & Runtime Files
+# =========================
+*.log
+logs/
+tmp/
+temp/
+
+# =========================
+# Databases
+# =========================
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# IDEs
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Node (if frontend exists)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Docker
+# =========================
+.dockerignore
+
+# =========================
+# Local configuration
+# =========================
+*.local
+local/
