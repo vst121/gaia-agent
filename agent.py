@@ -36,7 +36,7 @@ agent = CodeAgent(
         read_csv,
         list_files,
     ],
-    max_steps=3,
+    max_steps=5,
 )
 
 
