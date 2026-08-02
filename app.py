@@ -3,12 +3,34 @@ import gradio as gr
 import requests
 import inspect
 import pandas as pd
+from pathlib import Path
 
 # (Keep Constants as is)
 # --- Constants ---
 DEFAULT_API_URL = "https://agents-course-unit4-scoring.hf.space"
 
 from agent import GAIAAgent
+
+def download_file(task_id, file_name):
+
+    if not file_name:
+        return None
+
+    url = f"{DEFAULT_API_URL}/files/{task_id}"
+
+    response = requests.get(url)
+
+    response.raise_for_status()
+
+    folder = Path("files")
+    folder.mkdir(exist_ok=True)
+
+    path = folder / file_name
+
+    with open(path, "wb") as f:
+        f.write(response.content)
+
+    return str(path)
 
 def run_and_submit_all():
     """
@@ -67,7 +89,15 @@ def run_and_submit_all():
             continue
 
         try:
-            submitted_answer = agent(question_text)
+            file_path = download_file(                
+                task_id,
+                item.get("file_name")
+            )
+
+            submitted_answer = agent(
+                question_text,
+                file_path
+            )
 
             print("SUBMITTED ANSWER:")
             print(submitted_answer)

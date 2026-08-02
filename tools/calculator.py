@@ -7,12 +7,12 @@ def calculator(expression: str) -> str:
     Evaluate mathematical expressions.
 
     Args:
-        expression: The mathematical expression to evaluate, for example "25 * 4" or "(100 / 5) + 10".
+        expression: A mathematical expression such as 25*4.
 
     Returns:
-        The calculated result as a string.
+        The calculated result.
     """
-
+    
     try:
         result = eval(expression)
         return str(result)

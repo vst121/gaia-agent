@@ -3,17 +3,17 @@ from ddgs import DDGS
 
 
 @tool
-def search_web(query: str) -> str:
+def web_search(query: str) -> str:
     """
-    Search the internet for current information.
+    Search the web for information.
 
     Args:
-        query: The search phrase or question to look up online.
+        query: The search query to look up.
 
     Returns:
-        A list of relevant search results.
+        Search results as text.
     """
-
+    
     results = []
 
     with DDGS() as ddgs:
