@@ -51,7 +51,7 @@ def run_and_submit_all():
             f"https://huggingface.co/spaces/{space_id}/tree/main"
         )
     else:
-        agent_code = "local"
+        agent_code = "https://huggingface.co/spaces/Vahidsaadat/agents_course_ch"
 
     # IMPORTANT:
     # Replace this with your HF username if running locally.
@@ -80,7 +80,7 @@ def run_and_submit_all():
     try:
         response = requests.get(
             questions_url,
-            timeout=30
+            timeout=300
         )
 
         response.raise_for_status()

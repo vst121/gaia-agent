@@ -1,4 +1,5 @@
 smolagents
+smolagents[litellm]
 gradio[oauth]
 requests
 huggingface_hub
