@@ -1,4 +1,4 @@
-from smolagents import CodeAgent, InferenceClientModel
+from smolagents import ToolCallingAgent, LiteLLMModel
 
 from config import HF_TOKEN, MODEL_ID
 
@@ -12,26 +12,24 @@ from tools.files import (
 
 from tools.file_manager import list_files
 
-from smolagents import OpenAIServerModel
-import os
 
 # -------------------------------------------------
 # Model configuration
 # -------------------------------------------------
 
-model = OpenAIServerModel(
-    model_id="gemini-3.1-flash-lite",
-    api_base="https://generativelanguage.googleapis.com/v1beta/openai/",
-    api_key=os.environ["GEMINI_TOKEN"],
-    temperature=0.0,
-    max_tokens=4096,
+model = LiteLLMModel(
+    model_id="ollama/gemma4:e2b",
+    api_base="http://localhost:11434",
+    api_key="ollama",                 
+    num_ctx=8192,
 )
+
 
 # -------------------------------------------------
 # Agent configuration
 # -------------------------------------------------
 
-agent = CodeAgent(
+agent = ToolCallingAgent(
     model=model,
     tools=[
         web_search,
@@ -41,26 +39,8 @@ agent = CodeAgent(
         read_csv,
         list_files,
     ],
-    max_steps=7,
-    additional_authorized_imports=[
-        "pandas",
-        "numpy",
-        "json",
-        "re",
-    ],
-    verbosity_level=2,     
-    instructions="""
-You are solving GAIA benchmark tasks.
-
-Rules:
-- Always return executable Python code.
-- Put all tool calls inside a Python code block.
-- Never write explanations before or after code.
-- Never write "Thought:".
-- Never use markdown except a Python code block.
-"""
+    max_steps=15,
 )
-
 
 # -------------------------------------------------
 # GAIA Wrapper
