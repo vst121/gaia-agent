@@ -1,4 +1,4 @@
-from smolagents import ToolCallingAgent, LiteLLMModel
+from smolagents import CodeAgent, LiteLLMModel
 
 from config import HF_TOKEN, MODEL_ID
 
@@ -18,18 +18,17 @@ from tools.file_manager import list_files
 # -------------------------------------------------
 
 model = LiteLLMModel(
-    model_id="ollama/gemma4:e2b",
+    model_id="ollama_chat/qwen3.5:9b",
     api_base="http://localhost:11434",
-    api_key="ollama",                  # any non-empty value is commonly used
-    num_ctx=8192,
+    api_key="ollama",                   
+    num_ctx=16384,    
 )
-
 
 # -------------------------------------------------
 # Agent configuration
 # -------------------------------------------------
 
-agent = ToolCallingAgent(
+agent = CodeAgent(
     model=model,
     tools=[
         web_search,
@@ -39,7 +38,14 @@ agent = ToolCallingAgent(
         read_csv,
         list_files,
     ],
-    max_steps=5,
+    max_steps=3,
+    additional_authorized_imports=[
+        "pandas",
+        "numpy",
+        "json",
+        "re",
+    ],
+    verbosity_level=2, 
 )
 
 # -------------------------------------------------

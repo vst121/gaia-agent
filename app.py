@@ -2,6 +2,7 @@ import os
 import gradio as gr
 import requests
 import pandas as pd
+import json
 from pathlib import Path
 
 from agent import GAIAAgent
@@ -58,7 +59,7 @@ def run_and_submit_all():
     # When deployed as a Space, use OAuth username.
     username = os.getenv(
         "HF_USERNAME",
-        "local_test"
+        "Vahidsaadat"
     )
 
     # -------------------------------------------------
@@ -80,7 +81,7 @@ def run_and_submit_all():
     try:
         response = requests.get(
             questions_url,
-            timeout=300
+            timeout=360
         )
 
         response.raise_for_status()
@@ -169,13 +170,17 @@ def run_and_submit_all():
         "answers": answers_payload
     }
 
+    print("=" * 50)
+    print("SUBMISSION PAYLOAD PREVIEW:")
+    print(json.dumps(submission_data, indent=4))
+    print("=" * 50)
 
     try:
 
         response = requests.post(
             submit_url,
             json=submission_data,
-            timeout=300
+            timeout=360
         )
 
         response.raise_for_status()

@@ -20,7 +20,7 @@ from tools.file_manager import list_files
 model = LiteLLMModel(
     model_id="ollama/gemma4:e2b",
     api_base="http://localhost:11434",
-    api_key="ollama",                  # any non-empty value is commonly used
+    api_key="ollama",                 
     num_ctx=8192,
 )
 
@@ -39,7 +39,7 @@ agent = ToolCallingAgent(
         read_csv,
         list_files,
     ],
-    max_steps=5,
+    max_steps=15,
 )
 
 # -------------------------------------------------
