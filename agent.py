@@ -13,11 +13,21 @@ from tools.files import (
 from tools.file_manager import list_files
 
 
+# -------------------------------------------------
+# Model configuration
+# -------------------------------------------------
+
 model = InferenceClientModel(
     model_id=MODEL_ID,
     token=HF_TOKEN,
     max_tokens=256,
+    temperature=0.1,
 )
+
+
+# -------------------------------------------------
+# Agent configuration
+# -------------------------------------------------
 
 agent = CodeAgent(
     model=model,
@@ -30,13 +40,53 @@ agent = CodeAgent(
         list_files,
     ],
     max_steps=3,
+    additional_authorized_imports=[
+        "pandas",
+        "numpy",
+        "json",
+        "re",
+    ],
 )
 
 
+# -------------------------------------------------
+# GAIA Wrapper
+# -------------------------------------------------
+
 class GAIAAgent:
 
+    SYSTEM_PROMPT = """
+You are solving GAIA benchmark questions.
+
+Your goal is to provide the exact final answer.
+
+Rules:
+- Use tools when necessary.
+- Read files when they contain relevant information.
+- Perform calculations when required.
+- Do not explain your reasoning.
+- Do not use markdown.
+- Do not write "Final answer:".
+- Do not write "The answer is".
+- Return ONLY the answer itself.
+
+Examples:
+Question: What is 2 + 2?
+Good answer:
+4
+
+Question: What is the capital of France?
+Good answer:
+Paris
+"""
+
+
     def __init__(self):
-        print("GAIA Agent initialized")
+
+        print(
+            "GAIA Agent initialized"
+        )
+
 
     def __call__(
         self,
@@ -44,28 +94,74 @@ class GAIAAgent:
         file_path: str | None = None
     ) -> str:
 
-        print("=" * 50)
-        print("QUESTION:")
-        print(question)
+
+        prompt = (
+            self.SYSTEM_PROMPT
+            + "\n\nQuestion:\n"
+            + question
+        )
+
+
+        if file_path:
+
+            prompt += f"""
+
+A file is available here:
+
+{file_path}
+
+Use the file tools if the answer requires information from this file.
+"""
+
 
         try:
 
-            if file_path:
-                question += f"""
-                A related file is available at:
-                {file_path}
+            print("=" * 50)
+            print("QUESTION:")
+            print(question)
 
-                Use available file tools if needed.
-                """
 
-            answer = agent.run(question)
+            result = agent.run(
+                prompt
+            )
+
+
+            answer = str(result).strip()
+
+
+            # Remove common prefixes
+            prefixes = [
+                "Final answer:",
+                "FINAL ANSWER:",
+                "Answer:",
+                "The answer is",
+                "the answer is",
+            ]
+
+
+            for prefix in prefixes:
+
+                if answer.startswith(prefix):
+
+                    answer = (
+                        answer[len(prefix):]
+                        .strip()
+                    )
+
 
             print("ANSWER:")
             print(answer)
 
-            return str(answer)
+
+            return answer
+
 
         except Exception as e:
             import traceback
+
+            print("========== AGENT FAILED ==========")
+            print(e)
             traceback.print_exc()
-            return f"Agent failed: {e}"
+            print("===================================")
+
+            return "ERROR"
