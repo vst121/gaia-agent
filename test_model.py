@@ -1,5 +1,5 @@
 from config import HF_TOKEN, MODEL_ID
-from smolagents import InferenceClientModel
+from smolagents import InferenceClientModel, LiteLLMModel
 from smolagents.models import ChatMessage
 
 

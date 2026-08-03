@@ -1,4 +1,4 @@
-from smolagents import CodeAgent, InferenceClientModel
+from smolagents import CodeAgent, InferenceClientModel, LiteLLMModel
 
 from config import HF_TOKEN, MODEL_ID
 
