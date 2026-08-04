@@ -41,7 +41,7 @@ agent = CodeAgent(
         read_csv,
         list_files,
     ],
-    max_steps=7,
+    max_steps=12,
     additional_authorized_imports=[
         "pandas",
         "numpy",
